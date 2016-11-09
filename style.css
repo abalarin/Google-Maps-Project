@@ -13,6 +13,9 @@ html, body {
 
   background-color: #F2F2F2;
 }
+  span {
+    color: red;
+  }
   .input form{
     padding: 5px;
   }

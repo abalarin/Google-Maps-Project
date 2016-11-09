@@ -1,26 +1,32 @@
 $(document).ready(function() {
-  var map_api = 'https://maps.googleapis.com/maps/api/geocode/json?address=?';
-
-  $('button').click(function() {
-        var address = $(this).siblings('input').val()
-        map_api += address;
-        var location_json;
-        $.getJSON(map_api, function(data){
-          location_json = data.results[0].geometry.location;
-          addPoint(location_json);
-        });
-
+  //$('button').click(function() {
+  $('form').submit(function(e) {
+    e.preventDefault();
+    var address = $('input:first').val();
+    if(address){
+      var jax = $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=?' + address);
+      jax.done(function(data){
+        var location_json = data.results[0];
+        addPoint(location_json.geometry.location);
         $('<li>')
-          .addClass('address')
-          .text(address)
-          .appendTo('ul');
+            .append($('<a>').attr('href','/user/messages'))
+            .addClass('address')
+            .text(location_json.formatted_address)
+            .appendTo('ul');
+      })
+    }
+    else {
+      $( "span" ).text( "Invalid Address..." ).show().fadeOut(1000);
+    }
   });
 });
 
 var map;
-function initMap() {
+function initMap(location) {
+  if(!location)
+    location = {lat: 41.08394699999999, lng: -74.176609}
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 41.08394699999999, lng: -74.176609},
+    center: location,
     zoom: 10
   });
 }
