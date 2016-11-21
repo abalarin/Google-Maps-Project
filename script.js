@@ -1,5 +1,6 @@
 var i = 0;
 var locationList = []
+
 $(document).ready(function() {
   //$('button').click(function(e) {}
   function run(e){
@@ -20,7 +21,6 @@ $(document).ready(function() {
         $('<li>').addClass('address address' + i).appendTo('ul');
 
         $('<label>')
-            .addClass('address address' + i)
             .text(location_json.formatted_address)
             .attr("onclick", "centerMap(" + i +")")
             .appendTo('.address' + i);
